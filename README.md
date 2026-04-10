@@ -1,0 +1,1 @@
+# BDA-Project-GeoIntelli-AI-LLM-Driven-Landsat-8-Satellite-Analysis
