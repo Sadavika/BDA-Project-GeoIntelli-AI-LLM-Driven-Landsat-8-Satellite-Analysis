@@ -1,0 +1,35 @@
+# Install required libraries (run once)
+# pip install rasterio matplotlib numpy
+
+import rasterio
+import numpy as np
+import matplotlib.pyplot as plt
+
+# File paths (replace with your actual Landsat 8 band files)
+# Band 4 = Red, Band 5 = Near Infrared (NIR)
+# Make sure to upload 'B4.tif' and 'B5.tif' to your Colab environment
+# or provide the full path to their location.
+red_path = "/content/B4.tif" # e.g., "/B4.tif"
+nir_path = "/content/B5.tif" # e.g., "/B5.tif"
+
+# Read Red band
+with rasterio.open(red_path) as red_src:
+    red = red_src.read(1).astype('float32')
+
+# Read NIR band
+with rasterio.open(nir_path) as nir_src:
+    nir = nir_src.read(1).astype('float32')
+
+# Avoid division by zero
+np.seterr(divide='ignore', invalid='ignore')
+
+# NDVI Formula
+ndvi = (nir - red) / (nir + red)
+
+# Plot NDVI
+plt.figure(figsize=(8,6))
+plt.imshow(ndvi, cmap='RdYlGn')
+plt.colorbar(label='NDVI values')
+plt.title('NDVI Map (Landsat 8)')
+plt.axis('off')
+plt.show()
